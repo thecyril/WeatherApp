@@ -7,7 +7,7 @@ import retrofit2.http.Query
 
 interface WeatherEndpoint {
     @GET("weather")
-    fun getTopHeadlines(
+    fun getWeather(
         @Query("q") country: String,
         @Query("APPID") apiKey: String
     ): Observable<Weather>
