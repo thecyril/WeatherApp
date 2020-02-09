@@ -53,7 +53,7 @@ class App: Application() {
 
 	val weatherModule = module {
 		single<HttpWeatherRepository> { WeatherRepository(service = get()) }
-		single<WeatherMapper> { ContextWeatherMapper(androidContext().resources) }
+		single<WeatherMapper> { ContextWeatherMapper() }
 
 		viewModel {
 			WeatherViewModel(weatherRepository = get(), translator = get(), weatherMapper = get())

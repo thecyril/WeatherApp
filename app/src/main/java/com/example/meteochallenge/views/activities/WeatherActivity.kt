@@ -2,11 +2,14 @@ package com.example.meteochallenge.views.activities
 
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.airbnb.lottie.LottieAnimationView
 import com.example.meteochallenge.R
 import com.example.meteochallenge.viewmodels.WeatherViewModel
 import com.example.meteochallenge.views.adapters.WeatherAdapter
@@ -22,6 +25,8 @@ class WeatherActivity : AppCompatActivity() {
 	private lateinit var weatherAdapter: WeatherAdapter
 	private lateinit var weatherRecyclerView: RecyclerView
 	private lateinit var weatherTemperature: TextView
+	private lateinit var loadingLottie: LottieAnimationView
+	private lateinit var container: ConstraintLayout
 
 	private val disposables = CompositeDisposable()
 
@@ -32,6 +37,7 @@ class WeatherActivity : AppCompatActivity() {
 		viewModel.onViewCreated()
 
 		bindView()
+		showLoader()
 		bindViewModel()
 		configRecyclerView()
 	}
@@ -39,8 +45,20 @@ class WeatherActivity : AppCompatActivity() {
 	private fun bindView() {
 		weatherRecyclerView = data_recyclerview
 		weatherTemperature = weather_temperature
+		loadingLottie = weather_loading_lottie
+		container = weather_constraintlayout
 	}
 
+	private fun showLoader() {
+		loadingLottie.visibility = View.VISIBLE
+		loadingLottie.playAnimation()
+		container.visibility = View.GONE
+	}
+
+	private fun hideLoader() {
+		loadingLottie.visibility = View.GONE
+		container.visibility = View.VISIBLE
+	}
 
 	private fun bindViewModel() {
 		val weatherDisposable = viewModel
@@ -49,8 +67,7 @@ class WeatherActivity : AppCompatActivity() {
 				.subscribe { event ->
 					when (event) {
 						is WeatherViewModel.ViewState.Loading -> {
-							Log.d("DATA", "LOADING")
-							// TODO: Handle Loading
+							showLoader()
 						}
 						is WeatherViewModel.ViewState.Empty -> {
 							// TODO: Handle Empty
@@ -71,6 +88,7 @@ class WeatherActivity : AppCompatActivity() {
 		weatherAdapter.data = output.weatherData.weatherViewModel
 		weatherAdapter.notifyDataSetChanged()
 		weatherTemperature.text = output.weatherData.temperature
+		hideLoader()
 	}
 
 	private fun configRecyclerView() {

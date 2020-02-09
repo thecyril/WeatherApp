@@ -8,7 +8,7 @@ interface WeatherMapper{
 	fun mapToWeatherState(weatherStatus: String): WeatherState
 }
 
-class ContextWeatherMapper(resources: Resources) : WeatherMapper {
+class ContextWeatherMapper() : WeatherMapper {
 
 	val defaultWeatherState = WeatherState("Sunny", R.drawable.sun)
 

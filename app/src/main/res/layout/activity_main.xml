@@ -4,72 +4,93 @@
   xmlns:tools="http://schemas.android.com/tools"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
-  android:theme="@style/Theme.MaterialComponents.NoActionBar"
   android:scaleType="centerCrop"
-  tools:context=".views.activities.WeatherActivity" >
+  android:theme="@style/Theme.MaterialComponents.NoActionBar"
+  tools:context=".views.activities.WeatherActivity">
 
   <RelativeLayout
+    android:id="@+id/relativeLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent">
 
     <ImageView
       android:layout_width="match_parent"
       android:layout_height="match_parent"
       android:layout_alignParentTop="true"
       android:scaleType="centerCrop"
-      android:src="@drawable/ic_night"/>
+      android:src="@drawable/ic_night" />
 
   </RelativeLayout>
 
-  <TextView
-    android:id="@+id/weather_temperature"
+  <com.airbnb.lottie.LottieAnimationView
+    android:id="@+id/weather_loading_lottie"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginTop="56dp"
-    android:layout_marginStart="52dp"
-    android:textColor="#FFFFFF"
-    android:textSize="72sp"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent"
-    tools:text="12°C" />
-
-  <androidx.recyclerview.widget.RecyclerView
-    android:id="@+id/data_recyclerview"
-    android:layout_width="0dp"
-    android:layout_height="200dp"
-    android:layout_marginBottom="1dp"
-    android:layout_marginStart="1dp"
-    android:layout_marginEnd="1dp"
-    android:orientation="horizontal"
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
-    tools:listitem="@layout/weatherdetail_list" />
-
-  <ImageView
-    android:id="@+id/pin"
-    android:layout_width="25dp"
-    android:layout_height="25dp"
-    android:layout_marginTop="32dp"
-    android:layout_marginStart="32dp"
-    android:layout_marginEnd="8dp"
-    app:layout_constraintEnd_toStartOf="@+id/pin_localisation"
-    app:layout_constraintHorizontal_bias="1.0"
-    app:layout_constraintStart_toEndOf="@+id/weather_temperature"
     app:layout_constraintTop_toTopOf="parent"
-    app:srcCompat="@drawable/ic_pin" />
+    app:lottie_autoPlay="true"
+    app:lottie_loop="true"
+    app:lottie_rawRes="@raw/loading_animation" />
 
-  <TextView
-    android:id="@+id/pin_localisation"
-    android:textStyle="bold"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_marginEnd="32dp"
-    android:text="PARIS"
-    android:textAppearance="@style/TextAppearance.AppCompat.Large"
-    android:textSize="30sp"
-    app:layout_constraintBottom_toBottomOf="@+id/pin"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintTop_toTopOf="@+id/pin" />
+  <androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/weather_constraintlayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+      android:id="@+id/pin"
+      android:layout_width="25dp"
+      android:layout_height="25dp"
+      android:layout_marginTop="32dp"
+      android:layout_marginStart="32dp"
+      android:layout_marginEnd="8dp"
+      app:layout_constraintEnd_toStartOf="@+id/pin_localisation"
+      app:layout_constraintHorizontal_bias="1.0"
+      app:layout_constraintStart_toEndOf="@+id/weather_temperature"
+      app:layout_constraintTop_toTopOf="parent"
+      app:srcCompat="@drawable/ic_pin" />
+
+    <TextView
+      android:id="@+id/weather_temperature"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="56dp"
+      android:layout_marginStart="52dp"
+      android:textColor="#FFFFFF"
+      android:textSize="72sp"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent"
+      tools:text="12°C" />
+
+    <TextView
+      android:id="@+id/pin_localisation"
+      android:textStyle="bold"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginEnd="32dp"
+      android:text="@string/city"
+      android:textAppearance="@style/TextAppearance.AppCompat.Large"
+      android:textSize="30sp"
+      app:layout_constraintBottom_toBottomOf="@+id/pin"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintTop_toTopOf="@+id/pin" />
+
+    <androidx.recyclerview.widget.RecyclerView
+      android:id="@+id/data_recyclerview"
+      android:layout_width="0dp"
+      android:layout_height="200dp"
+      android:layout_marginBottom="16dp"
+      android:layout_marginStart="1dp"
+      android:layout_marginEnd="1dp"
+      android:orientation="horizontal"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      tools:listitem="@layout/weatherdetail_list" />
+
+
+  </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

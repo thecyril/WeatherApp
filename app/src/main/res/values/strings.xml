@@ -3,4 +3,5 @@
     <string name="degre_celcius">°C</string>
     <string name="metric_speed">"km/h"</string>
     <string name="temp_min_max">"%1s / %1s"</string>
+  <string name="city">PARIS</string>
 </resources>
