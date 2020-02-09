@@ -2,8 +2,12 @@ package com.example.meteochallenge
 
 import android.app.Application
 import com.example.meteochallenge.core.repositories.WeatherRepository
+import com.example.meteochallenge.core.translator.ContextTranslator
+import com.example.meteochallenge.core.translator.Translator
 import com.example.meteochallenge.interfaces.HttpWeatherRepository
 import com.example.meteochallenge.services.IoServices
+import com.example.meteochallenge.utils.ContextWeatherMapper
+import com.example.meteochallenge.utils.WeatherMapper
 import com.example.meteochallenge.viewmodels.WeatherViewModel
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import okhttp3.OkHttpClient
@@ -43,11 +47,16 @@ class App: Application() {
 		single { IoServices(retrofit = get()) }
 	}
 
+	val translatorModule = module {
+		single<Translator> { ContextTranslator(androidContext()) }
+	}
+
 	val weatherModule = module {
 		single<HttpWeatherRepository> { WeatherRepository(service = get()) }
+		single<WeatherMapper> { ContextWeatherMapper(androidContext().resources) }
 
 		viewModel {
-			WeatherViewModel(weatherRepository = get())
+			WeatherViewModel(weatherRepository = get(), translator = get(), weatherMapper = get())
 		}
 	}
 
@@ -58,6 +67,7 @@ class App: Application() {
 			printLogger(Level.DEBUG)
 			modules(
 					listOf(
+							translatorModule,
 							retrofitModule,
 							serviceModule,
 							weatherModule

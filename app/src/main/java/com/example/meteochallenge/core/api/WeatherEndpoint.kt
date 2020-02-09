@@ -9,6 +9,7 @@ interface WeatherEndpoint {
     @GET("weather")
     fun getWeather(
         @Query("q") country: String,
+        @Query("units") type: String,
         @Query("APPID") apiKey: String
     ): Observable<Weather>
 }

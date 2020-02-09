@@ -1,30 +1,35 @@
 package com.example.meteochallenge.viewmodels
 
-import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.LiveDataReactiveStreams
 import androidx.lifecycle.ViewModel
+import com.example.meteochallenge.R
+import com.example.meteochallenge.core.translator.Translator
 import com.example.meteochallenge.interfaces.HttpWeatherRepository
 import com.example.meteochallenge.models.Weather
-import io.reactivex.BackpressureStrategy
+import com.example.meteochallenge.models.WeatherData
+import com.example.meteochallenge.utils.WeatherMapper
 import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
-import java.util.concurrent.ScheduledThreadPoolExecutor
+import java.util.concurrent.TimeUnit
+import kotlin.math.roundToInt
 
 class WeatherViewModel(
-		private val weatherRepository: HttpWeatherRepository
+		private val weatherRepository: HttpWeatherRepository,
+		private val translator: Translator,
+		private val weatherMapper: WeatherMapper
 ) : ViewModel() {
 
 	private val weatherSubject = BehaviorSubject.create<Weather>()
 	private val errorSubject = BehaviorSubject.create<String>()
 	private val loadingSubject = PublishSubject.create<Unit>()
 
+	private val disposables = CompositeDisposable()
+
 	data class Output(
-			val weather: Weather
+			val weatherData: WeatherData
 	)
 
 	sealed class ViewState {
@@ -42,6 +47,9 @@ class WeatherViewModel(
 	fun observeWeatherRepository() {
 		val weatherObservable = weatherRepository
 				.getWeather()
+				.delay(10, TimeUnit.SECONDS)
+				.repeat()
+				.retry()
 				.subscribeOn(Schedulers.io())
 				.subscribeBy(
 						onError = {
@@ -51,16 +59,43 @@ class WeatherViewModel(
 							weatherSubject.onNext(it)
 						}
 				)
+		disposables.add(weatherObservable)
+	}
+
+	private fun createWeatherData(weather: Weather, weatherMapper: WeatherMapper): WeatherData {
+
+		val temp = weather.main.temp.roundToInt().toString() + translator.getString(R.string.degre_celcius)
+		val pressure = weather.main.pressure.toString()
+		val tempMinMax = translator.getString(R.string.temp_min_max, weather.main.tempMin, weather.main.tempMax)
+		val windSpeed = weather.wind.speed.toString() + translator.getString(R.string.metric_speed)
+		val humidity = weather.main.humidity.toString() + "%"
+
+
+		return WeatherData(
+				temp,
+				WeatherDataViewModel(
+						weatherMapper.mapToWeatherState(weather.weather[0].main),
+						pressure,
+						tempMinMax,
+						windSpeed,
+						humidity
+				)
+		)
 	}
 
 	fun getWeatherObservable(): Observable<ViewState> {
 
 		return Observable.merge(weatherSubject, errorSubject, loadingSubject).map {
 			when (it) {
-				is Weather -> ViewState.Success(Output(it))
+				is Weather -> ViewState.Success(Output(createWeatherData(it, weatherMapper)))
 				is String -> ViewState.Error(it)
 				else -> ViewState.Loading
 			}
 		}
+	}
+
+	override fun onCleared() {
+		super.onCleared()
+		disposables.clear()
 	}
 }

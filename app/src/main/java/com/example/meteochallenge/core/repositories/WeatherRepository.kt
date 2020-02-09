@@ -8,5 +8,5 @@ class WeatherRepository(service: IoServices): HttpWeatherRepository {
 
 	private val weatherApi = service.getWeatherApi()
 
-	override fun getWeather() = weatherApi.getWeather("Paris", BuildConfig.API_KEY)
+	override fun getWeather() = weatherApi.getWeather("Paris", "metric", BuildConfig.API_KEY)
 }
