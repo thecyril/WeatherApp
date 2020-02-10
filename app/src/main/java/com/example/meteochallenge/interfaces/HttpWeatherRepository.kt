@@ -5,5 +5,5 @@ import io.reactivex.Observable
 
 interface HttpWeatherRepository {
 
-	fun getWeather(): Observable<Weather>
+	fun getWeather(city: String): Observable<Weather>
 }

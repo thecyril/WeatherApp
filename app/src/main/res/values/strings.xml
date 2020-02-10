@@ -1,7 +1,8 @@
 <resources>
-    <string name="app_name">MeteoChallenge</string>
-    <string name="degre_celcius">°C</string>
-    <string name="metric_speed">"km/h"</string>
-    <string name="temp_min_max">"%1s / %1s"</string>
-  <string name="city">PARIS</string>
+  <string name="app_name">MeteoChallenge</string>
+  <string name="degre_celcius">°C</string>
+  <string name="metric_speed">"km/h"</string>
+  <string name="temp_min_max">"%1s / %1s"</string>
+  <string name="city_maj">PARIS</string>
+  <string name="city">Paris</string>
 </resources>

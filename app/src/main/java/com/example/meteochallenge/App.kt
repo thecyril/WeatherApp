@@ -1,6 +1,8 @@
 package com.example.meteochallenge
 
 import android.app.Application
+import androidx.room.Room
+import com.example.meteochallenge.core.databases.WeatherDatabase
 import com.example.meteochallenge.core.repositories.WeatherRepository
 import com.example.meteochallenge.core.translator.ContextTranslator
 import com.example.meteochallenge.core.translator.Translator
@@ -51,8 +53,14 @@ class App: Application() {
 		single<Translator> { ContextTranslator(androidContext()) }
 	}
 
+	val roomModule = module {
+		single { Room.databaseBuilder(get(), WeatherDatabase::class.java, "quotes_database").build() }
+
+		single { get<WeatherDatabase>().weatherDao() }
+	}
+
 	val weatherModule = module {
-		single<HttpWeatherRepository> { WeatherRepository(service = get()) }
+		single<HttpWeatherRepository> { WeatherRepository(service = get(), weatherDao = get()) }
 		single<WeatherMapper> { ContextWeatherMapper() }
 
 		viewModel {
@@ -67,6 +75,7 @@ class App: Application() {
 			printLogger(Level.DEBUG)
 			modules(
 					listOf(
+							roomModule,
 							translatorModule,
 							retrofitModule,
 							serviceModule,

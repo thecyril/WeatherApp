@@ -31,6 +31,7 @@ ext {
     rxKotlinVersion = '2.4.0'
     rxBindingVersion = '3.0.0'
     disposeBagVersion = '0.1.0'
+    room_version = "2.2.3"
 }
 
 task clean(type: Delete) {

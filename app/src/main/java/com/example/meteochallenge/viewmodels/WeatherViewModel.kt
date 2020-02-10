@@ -46,8 +46,8 @@ class WeatherViewModel(
 
 	fun observeWeatherRepository() {
 		val weatherObservable = weatherRepository
-				.getWeather()
-				.delay(10, TimeUnit.SECONDS)
+				.getWeather(city = translator.getString(R.string.city))
+				.delay(40, TimeUnit.SECONDS)
 				.repeat()
 				.retry()
 				.subscribeOn(Schedulers.io())
@@ -64,17 +64,17 @@ class WeatherViewModel(
 
 	private fun createWeatherData(weather: Weather, weatherMapper: WeatherMapper): WeatherData {
 
-		val temp = weather.main.temp.roundToInt().toString() + translator.getString(R.string.degre_celcius)
-		val pressure = weather.main.pressure.toString()
-		val tempMinMax = translator.getString(R.string.temp_min_max, weather.main.tempMin, weather.main.tempMax)
-		val windSpeed = weather.wind.speed.toString() + translator.getString(R.string.metric_speed)
-		val humidity = weather.main.humidity.toString() + "%"
+		val temp = weather.main?.temp!!.roundToInt().toString() + translator.getString(R.string.degre_celcius)
+		val pressure = weather.main?.pressure.toString()
+		val tempMinMax = translator.getString(R.string.temp_min_max, weather.main?.tempMin!!, weather.main!!.tempMax)
+		val windSpeed = weather.wind?.speed.toString() + translator.getString(R.string.metric_speed)
+		val humidity = weather.main?.humidity.toString() + "%"
 
 
 		return WeatherData(
 				temp,
 				WeatherDataViewModel(
-						weatherMapper.mapToWeatherState(weather.weather[0].main),
+						weatherMapper.mapToWeatherState(weather.weather!![0].main),
 						pressure,
 						tempMinMax,
 						windSpeed,

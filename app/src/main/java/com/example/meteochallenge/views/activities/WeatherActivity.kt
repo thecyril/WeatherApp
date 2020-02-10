@@ -9,6 +9,8 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.CircularProgressDrawable
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.airbnb.lottie.LottieAnimationView
 import com.example.meteochallenge.R
 import com.example.meteochallenge.viewmodels.WeatherViewModel
@@ -18,7 +20,7 @@ import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.android.ext.android.inject
 
-class WeatherActivity : AppCompatActivity() {
+class WeatherActivity : AppCompatActivity(),  SwipeRefreshLayout.OnRefreshListener {
 
 	private val viewModel: WeatherViewModel by inject()
 
@@ -27,6 +29,8 @@ class WeatherActivity : AppCompatActivity() {
 	private lateinit var weatherTemperature: TextView
 	private lateinit var loadingLottie: LottieAnimationView
 	private lateinit var container: ConstraintLayout
+	private lateinit var swipeContainer: SwipeRefreshLayout
+	private lateinit var swipeLoading: CircularProgressDrawable
 
 	private val disposables = CompositeDisposable()
 
@@ -102,5 +106,11 @@ class WeatherActivity : AppCompatActivity() {
 	override fun onDestroy() {
 		super.onDestroy()
 		disposables.clear()
+	}
+
+	override fun onRefresh() {
+		swipeLoading.stop()
+		swipeContainer.isRefreshing = true
+		Log.d("REFRESHING", "TRUE")
 	}
 }

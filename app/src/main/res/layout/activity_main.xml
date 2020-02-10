@@ -8,6 +8,11 @@
   android:theme="@style/Theme.MaterialComponents.NoActionBar"
   tools:context=".views.activities.WeatherActivity">
 
+  <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+    android:id="@+id/swipe_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
   <RelativeLayout
     android:id="@+id/relativeLayout"
     android:layout_width="match_parent"
@@ -21,6 +26,7 @@
       android:src="@drawable/ic_night" />
 
   </RelativeLayout>
+  </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
   <com.airbnb.lottie.LottieAnimationView
     android:id="@+id/weather_loading_lottie"
@@ -70,7 +76,7 @@
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_marginEnd="32dp"
-      android:text="@string/city"
+      android:text="@string/city_maj"
       android:textAppearance="@style/TextAppearance.AppCompat.Large"
       android:textSize="30sp"
       app:layout_constraintBottom_toBottomOf="@+id/pin"
