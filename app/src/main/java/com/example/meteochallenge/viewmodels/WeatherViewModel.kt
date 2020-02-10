@@ -47,9 +47,9 @@ class WeatherViewModel(
 	fun observeWeatherRepository() {
 		val weatherObservable = weatherRepository
 				.getWeather()
-				.delay(30, TimeUnit.SECONDS)
-				.repeat()
 				.retry()
+				.timeout(1600, TimeUnit.SECONDS)
+				.repeatWhen{ completed -> completed.delay(2, TimeUnit.MINUTES) }
 				.subscribeOn(Schedulers.io())
 				.subscribeBy(
 						onError = {
@@ -86,12 +86,13 @@ class WeatherViewModel(
 	fun getWeatherObservable(): Observable<ViewState> {
 
 		return Observable.merge(weatherSubject, errorSubject, loadingSubject).map {
-			when (it) {
-				is Weather -> ViewState.Success(Output(createWeatherData(it, weatherMapper)))
-				is String -> ViewState.Error(it)
-				else -> ViewState.Loading
+				when (it) {
+					is Weather -> ViewState.Success(Output(createWeatherData(it, weatherMapper)))
+					is String -> ViewState.Error(it)
+					else -> ViewState.Loading
+				}
 			}
-		}
+
 	}
 
 	override fun onCleared() {
