@@ -5,7 +5,7 @@ This Repository contains a Detailed Weather Sample app that Implements MVVM clea
 Retorfit2, Koin, RxKotlin, Lottie, AndroidX, Android Jetpack, RxBinding 
 
 ## Preview
-!https://i.imgur.com/phifntc.jpg
+![Preview](https://i.imgur.com/IbQTkLR.png)
 
 ### The app has following packages
  
