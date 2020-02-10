@@ -47,7 +47,7 @@ Retorfit2, Koin, RxKotlin, Lottie, AndroidX, Android Jetpack, RxBinding
   
 ### Libraries Used   
 
-- [RxKotlin](- [RxKotlin](https://github.com/ReactiveX/RxKotlin)
+- [RxKotlin](https://github.com/ReactiveX/RxKotlin)
 - [RxAndroid](https://github.com/ReactiveX/RxAndroid)
 - [Koin](https://github.com/InsertKoinIO/koin)
 
