@@ -4,6 +4,9 @@
 This Repository contains a Detailed Weather Sample app that Implements MVVM clean Architecture in Kotlin using
 Retorfit2, Koin, RxKotlin, Lottie, AndroidX, Android Jetpack, RxBinding 
 
+## Preview
+!https://i.imgur.com/phifntc.jpg
+
 ### The app has following packages
  
  - **App.kt** its include Dependencies Injections Modules using **Koin**
