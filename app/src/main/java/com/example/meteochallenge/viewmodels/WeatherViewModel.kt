@@ -47,7 +47,7 @@ class WeatherViewModel(
 	fun observeWeatherRepository() {
 		val weatherObservable = weatherRepository
 				.getWeather()
-				.delay(10, TimeUnit.SECONDS)
+				.delay(30, TimeUnit.SECONDS)
 				.repeat()
 				.retry()
 				.subscribeOn(Schedulers.io())
