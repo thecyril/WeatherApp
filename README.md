@@ -2,7 +2,10 @@
 
 ## Overview
 This Repository contains a Detailed Weather Sample app that Implements MVVM clean Architecture in Kotlin using
-Retorfit2, Koin, RxKotlin, Lottie, AndroidX, Android Jetpack, RxBinding 
+Retrofit2, Koin, RxKotlin, Lottie, AndroidX, Android Jetpack, RxBinding 
+
+## Preview
+![Preview](https://i.imgur.com/IbQTkLR.png)
 
 ### The app has following packages
  
@@ -45,9 +48,9 @@ Retorfit2, Koin, RxKotlin, Lottie, AndroidX, Android Jetpack, RxBinding
   - > Fetch data as Observable that is observed by viewmodel
             
   
-### Libraries Used   
+### Used librairies   
 
-- [RxKotlin](- [RxKotlin](https://github.com/ReactiveX/RxKotlin)
+- [RxKotlin](https://github.com/ReactiveX/RxKotlin)
 - [RxAndroid](https://github.com/ReactiveX/RxAndroid)
 - [Koin](https://github.com/InsertKoinIO/koin)
 
