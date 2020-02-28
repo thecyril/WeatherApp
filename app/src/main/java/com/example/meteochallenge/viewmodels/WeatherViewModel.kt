@@ -46,7 +46,7 @@ class WeatherViewModel(
 
 	fun observeWeatherRepository() {
 		val weatherObservable = weatherRepository
-				.getWeather()
+				.getWeather(city = translator.getString(R.string.city))
 				.retry()
 				.timeout(1600, TimeUnit.SECONDS)
 				.repeatWhen{ completed -> completed.delay(2, TimeUnit.MINUTES) }

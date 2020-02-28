@@ -1,5 +1,6 @@
 package com.example.meteochallenge.core.repositories
 
+import android.util.Log
 import com.example.meteochallenge.BuildConfig
 import com.example.meteochallenge.core.api.WeatherDao
 import com.example.meteochallenge.interfaces.HttpWeatherRepository
@@ -26,13 +27,15 @@ class WeatherRepository(
 
 		// Runs in a background thread.
 			// Check if user data was fetched recently.
+
 		Thread(Runnable {
 			Runnable {
 				val userExists = weatherDao.hasCity(cityName, FRESH_TIMEOUT)
+				Log.d("USER", userExists.toString())
 				if (!userExists) {
 					// Refreshes the data.
 					val response = weatherApi.getWeather(cityName, "metric", BuildConfig.API_KEY)
-
+					Log.d("response", response.toString())
 					// Check for errors here.
 
 					// Updates the database. The LiveData object automatically
@@ -44,7 +47,7 @@ class WeatherRepository(
 	}
 
 	companion object {
-		val FRESH_TIMEOUT = TimeUnit.DAYS.toMillis(1)
+		val FRESH_TIMEOUT = TimeUnit.HOURS.toMillis(1)
 	}
 
 
