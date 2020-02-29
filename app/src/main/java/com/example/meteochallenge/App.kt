@@ -5,7 +5,10 @@ import com.example.meteochallenge.core.repositories.WeatherRepository
 import com.example.meteochallenge.core.translator.ContextTranslator
 import com.example.meteochallenge.core.translator.Translator
 import com.example.meteochallenge.interfaces.HttpWeatherRepository
+import com.example.meteochallenge.interfaces.LocaleDataSouce
+import com.example.meteochallenge.interfaces.RemoteDataSource
 import com.example.meteochallenge.services.IoServices
+import com.example.meteochallenge.services.WeatherLocalDataSource
 import com.example.meteochallenge.utils.ContextWeatherMapper
 import com.example.meteochallenge.utils.WeatherMapper
 import com.example.meteochallenge.viewmodels.WeatherViewModel
@@ -44,7 +47,8 @@ class App: Application() {
 	}
 
 	val serviceModule = module {
-		single { IoServices(retrofit = get()) }
+		single<RemoteDataSource> { IoServices(retrofit = get()) }
+		single<LocaleDataSouce> { WeatherLocalDataSource(androidContext()) }
 	}
 
 	val translatorModule = module {
@@ -52,7 +56,7 @@ class App: Application() {
 	}
 
 	val weatherModule = module {
-		single<HttpWeatherRepository> { WeatherRepository(service = get()) }
+		single<HttpWeatherRepository> { WeatherRepository(localeData = get(), remoteDataSource = get()) }
 		single<WeatherMapper> { ContextWeatherMapper() }
 
 		viewModel {
